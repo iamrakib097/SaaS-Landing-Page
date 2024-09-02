@@ -3,9 +3,22 @@ import SectionPara from "../components/SectionPara";
 import SectionTitle from "../components/SectionTitle";
 import starImage from "../assets/star.png";
 import springImage from "../assets/spring.png";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValueEvent,
+} from "framer-motion";
+import { useRef } from "react";
 export const CallToAction = () => {
+  const callRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: callRef,
+    offset: ["start end", "end start"],
+  });
+  const translateY = useTransform(scrollYProgress, [0, 1], [150, -150]);
   return (
-    <section className="mt-40 max-container overflow-x-clip">
+    <section ref={callRef} className="mt-40 max-container overflow-x-clip">
       <div className="px-5 flex flex-col justify-center items-center relative">
         <div className="px-20">
           <SectionTitle title={`Sign up for free today`} />
@@ -21,7 +34,8 @@ export const CallToAction = () => {
           <Button type="text" text="Learn more" />
         </div>
         <div className="hidden md:block absolute md:-top-36 md:-left-64 lg:-left-4 lg:-top-20 2xl:-left-4 2xl:-top-20">
-          <img
+          <motion.img
+            style={{ translateY: translateY }}
             src={starImage}
             alt="star image"
             width={362}
@@ -29,7 +43,8 @@ export const CallToAction = () => {
             className=""
           />
         </div>
-        <img
+        <motion.img
+          style={{ translateY: translateY }}
           src={springImage}
           alt="spring image"
           width={362}
